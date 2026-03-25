@@ -119,7 +119,7 @@ def rerank(query, docs, top_n=5):
 # =========================
 # TOOL
 # =========================
-@tool
+@tool(description="Retrieve relevant context from the speech")
 def retrieve_context(query: str) -> str:
     docs = retriever.get_relevant_documents(query)
     reranked = rerank(query, docs, top_n=5)
