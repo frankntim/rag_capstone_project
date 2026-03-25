@@ -26,11 +26,21 @@ st.set_page_config(page_title="Agentic RAG", layout="wide")
 st.title("🤖 Agentic RAG (Streaming + Multi-Agent + Memory)")
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # =========================
 # SIDEBAR (TRACES)
 # =========================
 st.sidebar.title("🧭 Agent Traces")
+
+api_key = st.sidebar.text_input(
+    "Enter your OpenAI API Key",
+    type="password",
+    placeholder="sk-..."
+)
+
+if api_key:
+    st.session_state["OPENAI_API_KEY"] = api_key
+    os.environ["OPENAI_API_KEY"] = api_key
 
 if "traces" not in st.session_state:
     st.session_state.traces = []
