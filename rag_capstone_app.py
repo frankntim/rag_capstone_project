@@ -15,6 +15,7 @@ from langgraph.graph import StateGraph, END
 
 # Cross-encoder
 from sentence_transformers import CrossEncoder
+from dotenv import load_dotenv
 
 # =========================
 # PAGE CONFIG
@@ -22,7 +23,9 @@ from sentence_transformers import CrossEncoder
 st.set_page_config(page_title="Agentic RAG", layout="wide")
 
 st.title("🤖 Agentic RAG (Streaming + Multi-Agent + Memory)")
+load_dotenv()
 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # =========================
 # SIDEBAR (TRACES)
 # =========================
