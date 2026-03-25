@@ -52,6 +52,8 @@ if api_key:
     os.environ["OPENAI_API_KEY"] = api_key
 
 if "traces" not in st.session_state:
+    if "traces" not in st.session_state:
+        st.session_state.traces = []
     st.session_state.traces = []
 
 def add_trace(msg):
