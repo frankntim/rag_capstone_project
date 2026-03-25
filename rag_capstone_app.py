@@ -32,6 +32,15 @@ load_dotenv()
 # =========================
 st.sidebar.title("🧭 Agent Traces")
 
+if "traces" not in st.session_state:
+    st.session_state.traces = []
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+if "OPENAI_API_KEY" not in st.session_state:
+    st.session_state.OPENAI_API_KEY = None
+
 api_key = st.sidebar.text_input(
     "Enter your OpenAI API Key",
     type="password",
