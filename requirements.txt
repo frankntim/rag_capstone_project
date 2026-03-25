@@ -6,3 +6,4 @@ langgraph
 chromadb 
 sentence-transformers 
 langchain-core
+python-dotenv
