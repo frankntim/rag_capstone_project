@@ -5,6 +5,7 @@
 import streamlit as st
 from typing import TypedDict, List
 import concurrent.futures
+import os
 
 # LangChain / LangGraph
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
