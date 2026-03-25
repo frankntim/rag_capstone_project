@@ -49,7 +49,7 @@ if "chat_history" not in st.session_state:
 # =========================
 @st.cache_resource
 def load_vectorstore():
-    with open("/content/drive/MyDrive/state_of_the_union.txt", "r") as f:
+    with open("state_of_the_union.txt", "r") as f:
       text = f.read()
 
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
