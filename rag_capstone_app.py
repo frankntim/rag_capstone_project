@@ -58,18 +58,31 @@ with st.sidebar:
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
+
+def get_llm():
+    return ChatOpenAI(
+        model="gpt-4o-mini",
+        temperature=0,
+        streaming=True,
+        openai_api_key=st.session_state.get("OPENAI_API_KEY")
+    )
+
+def get_embeddings():
+    return OpenAIEmbeddings(
+        openai_api_key=st.session_state.get("OPENAI_API_KEY")
+    )
 # =========================
 # LOAD DATA (cached)
 # =========================
 @st.cache_resource
-def load_vectorstore():
+def load_vectorstore(api_key):
     with open("state_of_the_union.txt", "r") as f:
-      text = f.read()
+        text = f.read()
 
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     docs = splitter.create_documents([text])
 
-    embedding = OpenAIEmbeddings()
+    embedding = OpenAIEmbeddings(openai_api_key=api_key)
 
     vs = Chroma.from_documents(
         docs,
@@ -79,7 +92,13 @@ def load_vectorstore():
 
     return vs
 
-vectorstore = load_vectorstore()
+if "OPENAI_API_KEY" in st.session_state:
+    vectorstore = load_vectorstore(st.session_state["OPENAI_API_KEY"])
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
+else:
+    st.warning("⚠️ Please enter your OpenAI API key in the sidebar")
+    st.stop()
+    
 retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
 
 # =========================
@@ -109,7 +128,8 @@ def retrieve_context(query: str) -> str:
 # =========================
 # LLM (STREAMING)
 # =========================
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, streaming=True)
+#llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, streaming=True)
+llm = get_llm()
 
 def stream_to_container(stream, container):
     full = ""
